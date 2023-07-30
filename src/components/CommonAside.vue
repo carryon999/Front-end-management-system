@@ -14,7 +14,7 @@
       </template>
 
       <el-menu-item-group v-for="subItem in item.children" :key="subItem.path">
-        <el-menu-item :index="subItem.path">{{subItem.labal}}</el-menu-item>
+        <el-menu-item :index="subItem.path">{{subItem.label}}</el-menu-item>
       </el-menu-item-group>
 
       <!-- <el-menu-item-group v-for="subItem in item.children" :key="subItem.path">
