@@ -10,7 +10,7 @@ export default {
 
   data () {
     return {
-
+    //12345678风格化
     }
   },
   components: {
