@@ -3,7 +3,7 @@
 
     <el-container>
       <el-aside width="200px">
-        <common-aside/>
+        <CommonAside/>
       </el-aside>
       <el-container>
         <el-header>Header</el-header>
