@@ -1,8 +1,17 @@
 <template>
 
-  <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+  <el-menu default-active="1-4-1"
+    class="el-menu-vertical-demo"
+    @open="handleOpen"
+    @close="handleClose"
+    :collapse="isCollapse"
+    background-color="#545c64"
+    text-color="#fff"
+    active-text-color="#ffd04b">
 
-    <el-menu-item v-for="item in noChildren" :key="item.name" :index="item.name">
+    <h3>通用后台管理系统</h3>
+
+    <el-menu-item @click="clickMenu(item)" v-for="item in noChildren" :key="item.name" :index="item.name">
         <i :class="`el-icon-${item.icon}`"></i>
         <span slot="title">{{item.label}}</span>
     </el-menu-item>
@@ -14,11 +23,11 @@
       </template>
 
       <el-menu-item-group v-for="subItem in item.children" :key="subItem.path">
-        <el-menu-item :index="subItem.path">{{subItem.labal}}</el-menu-item>
+        <el-menu-item @click="clickMenu(subItem)" :index="subItem.path">{{subItem.label}}</el-menu-item>
       </el-menu-item-group>
 
       <!-- <el-menu-item-group v-for="subItem in item.children" :key="subItem.path">
-        <el-menu-item :index="subItem.path">{{subItem.labal}}</el-menu-item>
+        <el-menu-item :index="subItem.path">{{subItem.label}}</el-menu-item>
       </el-menu-item-group> -->
     </el-submenu>
   </el-menu>
@@ -80,6 +89,17 @@ export default {
     },
     handleClose (key, keyPath) {
       console.log(key, keyPath)
+    },
+    // 点击菜单
+    clickMenu (item) {
+      console.log(item)
+      // 解决二次点击报错的问题
+      // 当页面的路由与页面的路由不一致的情况下才跳转
+      //   if (this.$route.path === '/home' && ['/home', '/'].includes(item.path)) return
+      //   this.$router.push(item.path)
+      if (this.$route.path !== item.path && !(this.$route.path === '/home' && (item.path === '/'))) {
+        this.$router.push(item.path)
+      }
     }
   },
   computed: {
@@ -95,9 +115,17 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
     min-height: 400px;
+  }
+  .el-menu{
+    height: 100vh;
+    h3 {
+      color: #fff;
+      text-align: center;
+      line-height: 48px;
+    }
   }
 </style>
