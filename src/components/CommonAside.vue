@@ -9,7 +9,7 @@
     text-color="#fff"
     active-text-color="#ffd04b">
 
-    <h3>通用后台管理系统</h3>
+    <h3>{{isCollapse ? '后台': '通用后台管理系统' }}</h3>
 
     <el-menu-item @click="clickMenu(item)" v-for="item in noChildren" :key="item.name" :index="item.name">
         <i :class="`el-icon-${item.icon}`"></i>
@@ -37,7 +37,7 @@
 export default {
   data () {
     return {
-      isCollapse: false,
+      // isCollapse: false,
       menuData: [
         {
           path: '/',
@@ -50,7 +50,7 @@ export default {
           path: '/mall',
           name: 'mall',
           label: '商品管理',
-          icon: 'video-play',
+          icon: 'goods',
           url: 'MallManage/MallManage'
         },
         {
@@ -110,22 +110,26 @@ export default {
     // 有子菜单
     hasChildren () {
       return this.menuData.filter(item => item.children)
+    },
+    isCollapse () {
+      return this.$store.state.tab.isCollapse
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-  .el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 200px;
-    min-height: 400px;
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
+}
+.el-menu{
+  height: 100vh;
+  border-right: none;
+  h3 {
+    line-height: 48px;
+    color: #fff;
+    text-align: center;
   }
-  .el-menu{
-    height: 100vh;
-    h3 {
-      color: #fff;
-      text-align: center;
-      line-height: 48px;
-    }
-  }
+}
 </style>

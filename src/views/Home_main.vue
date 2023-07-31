@@ -2,7 +2,7 @@
   <div>
 
     <el-container>
-      <el-aside width="200px">
+      <el-aside width="auto">
         <common-aside/>
       </el-aside>
       <el-container>
