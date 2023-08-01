@@ -6,18 +6,11 @@
 
 <script>
 export default {
-
   data () {
-    return {
-
-    }
+    return {}
   },
-  components: {
-
-  }
+  components: {}
 }
 </script>
 
-<style>
-
-</style>
+<style></style>
