@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="8">
+      <el-col :span="8" style="padding-right:10px">
         <el-card class="box-card">
           <div class="user">
             <img src="../assets/images/user.png" alt />
@@ -42,7 +42,7 @@
           </el-table>
         </el-card>
       </el-col>
-      <el-col :span="16">
+      <el-col :span="16" style="padding-left:10px">
         <div class="num">
           <el-card v-for="item in countData" :key="item.name" :body-style="{display: 'flex', padding: 0}">
             <i class="icon" :class="`el-icon-${item.icon}`" :style="{background:item.color}"></i>
@@ -52,12 +52,26 @@
             </div>
           </el-card>
         </div>
+        <el-card style="height: 280px">
+          <!-- 折线图 -->
+          <div ref="echarts1" style="height: 280px"></div>
+        </el-card>
+        <div class="graph">
+          <el-card style="height: 260px">
+
+          </el-card>
+          <el-card style="height: 260px">
+
+          </el-card>
+        </div>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+import { getData } from '../api'
+import * as echarts from 'echarts'
 export default {
   data () {
     return {
@@ -99,6 +113,7 @@ export default {
             totalBuy: 22000
           }
         ],
+
         countData: [
           {
           name: '今日支付订单',
@@ -139,11 +154,48 @@ export default {
         ]
     }
   },
-  components: {}
+  mounted () {
+    getData().then(({ data }) => {
+      const { tableData } = data.data
+      console.log(data.data)
+      this.tableData = tableData
+
+      // 基于准备好的DOM，初始化echarts实例
+      const echarts1 = echarts.init(this.$refs.echarts1)
+      // 指定图标的数据项和数据
+      const echarts1Option = {}
+
+      // 数据处理xAxis
+      const { orderData } = data.data
+      const xAxis = Object.keys(orderData.data[0])
+      console.log(xAxis)
+      echarts1Option.xAxis = {
+        data: xAxis
+        }
+      echarts1Option.legend = {
+        data: xAxis
+      }
+      echarts1Option.yAxis = {}
+      echarts1Option.series = []
+      xAxis.forEach(key => {
+        echarts1Option.series.push({
+          name: key,
+          data: orderData.data.map(item => item[key]),
+          type: 'line'
+        })
+      })
+      console.log(echarts1Option)
+          // 根据配置显示图表
+       echarts1.setOption(echarts1Option)
+    })
+  }
 }
 </script>
 
 <style lang="less" scoped>
+  .box-card{
+    margin-bottom: 20px;
+  }
   .user {
     padding-bottom: 20px;
     margin-bottom: 20px;
@@ -208,6 +260,14 @@ export default {
         text-align: center;
         color: #999;
       }
+    }
+  }
+  .graph {
+    display: flex;
+    justify-content: space-between;   //    左右贴边
+    margin-top: 20px;
+    .el-card {
+      width: 48%;
     }
   }
 </style>
