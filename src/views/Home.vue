@@ -58,10 +58,10 @@
         </el-card>
         <div class="graph">
           <el-card style="height: 260px">
-
+            <div ref="echarts2" style="height: 260px"></div>
           </el-card>
           <el-card style="height: 260px">
-
+            <div ref="echarts3" style="height: 240px"></div>
           </el-card>
         </div>
       </el-col>
@@ -160,13 +160,14 @@ export default {
       console.log(data.data)
       this.tableData = tableData
 
+      // 折线图
       // 基于准备好的DOM，初始化echarts实例
       const echarts1 = echarts.init(this.$refs.echarts1)
       // 指定图标的数据项和数据
       const echarts1Option = {}
 
       // 数据处理xAxis
-      const { orderData } = data.data
+      const { orderData, userData, videoData } = data.data
       const xAxis = Object.keys(orderData.data[0])
       console.log(xAxis)
       echarts1Option.xAxis = {
@@ -184,9 +185,94 @@ export default {
           type: 'line'
         })
       })
-      console.log(echarts1Option)
-          // 根据配置显示图表
-       echarts1.setOption(echarts1Option)
+      // console.log(echarts1Option)
+      // 根据配置显示图表
+      echarts1.setOption(echarts1Option)
+
+      // 柱状图   用户配置
+      // 基于准备好的DOM，初始化echarts实例
+      const echarts2 = echarts.init(this.$refs.echarts2)
+      // 指定图标的数据项和数据
+      const echarts2Option = {
+        legend: {
+          // 图例文字颜色
+          textStyle: {
+            color: '#333'
+          }
+        },
+        grid: {
+          left: '20%'
+        },
+        // 提示框
+        tooltip: {
+          trigger: 'axis'
+        },
+        xAxis: {
+          type: 'category', // 类目轴
+          data: userData.map(item => item.date),
+          axisLine: {
+            lineStyle: {
+              color: '#17b3a3'
+            }
+          },
+          axisLabel: {
+            interval: 0,
+            color: '#333'
+          }
+        },
+        yAxis: [
+          {
+            type: 'value',
+            axisLine: {
+              lineStyle: {
+                color: '#17b3a3'
+              }
+            }
+          }
+        ],
+        color: ['#2ec7c9', '#b6a2de', '#5ab1ef', '#ffb980', '#d87a80', '#8d98b3'],
+        series: [
+          {
+            name: '新增用户',
+            data: userData.map(item => item.new),
+            type: 'bar'
+          },
+          {
+            name: '活跃用户',
+            data: userData.map(item => item.active),
+            type: 'bar'
+          }
+        ]
+      }
+      // 根据配置显示图表
+      echarts2.setOption(echarts2Option)
+
+      // 饼状图   用户配置
+      // 基于准备好的DOM，初始化echarts实例
+      const echarts3 = echarts.init(this.$refs.echarts3)
+      // 指定图标的数据项和数据
+      const echarts3Option = {
+          tooltip: {
+          trigger: 'item'
+        },
+        color: [
+          '#0f78f4',
+          '#dd536b',
+          '#9462e5',
+          '#a6a6a6',
+          '#e1bb22',
+          '#39c362',
+          '#3ed1cf'
+        ],
+        series: [
+          {
+            data: videoData,
+            type: 'pie'
+          }
+        ]
+      }
+      // 根据配置显示图表
+      echarts3.setOption(echarts3Option)
     })
   }
 }

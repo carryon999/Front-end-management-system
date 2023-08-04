@@ -9,6 +9,7 @@
         <el-header>
           <common-header/>
         </el-header>
+          <common-tag/>
         <el-main>
           <!-- 路由出口 -->
           <!-- 路由匹配到的组件将渲染在这里 -->
@@ -23,6 +24,7 @@
 <script>
 import CommonAside from '@/components/CommonAside'
 import CommonHeader from '@/components/CommonHeader'
+import CommonTag from '@/components/CommonTag'
 export default {
 
   data () {
@@ -32,7 +34,8 @@ export default {
   },
   components: {
     CommonAside,
-    CommonHeader
+    CommonHeader,
+    CommonTag
   }
 }
 </script>
