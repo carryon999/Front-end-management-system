@@ -6,7 +6,7 @@
         <el-input v-model="form.username" placeholder="请输入账号"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
+        <el-input type="password" v-model="form.password" placeholder="请输入密码"  @keyup.enter.native="submit"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="submit" style="margin-left:105px; margin-top:10px" type="primary">登录</el-button>
@@ -50,6 +50,17 @@ export default {
         if (valid) {
           getMenu(this.form).then(({ data }) => {
             console.log(data)
+            if (data.code === 20000) {
+              // token信息存入cookie用于不同页面的通信
+              Cookie.set('token', data.data.token)
+              // 拉取菜单的数据存入store中
+              this.$store.commit('setMenu', data.data.menu)
+              this.$store.commit('addMenu', this.$router)
+              // 跳转到首页
+              this.$router.push('/home')
+            } else {
+              this.$message.error(data.data)
+            }
           })
         }
       })

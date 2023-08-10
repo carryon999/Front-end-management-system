@@ -29,5 +29,8 @@ router.beforeEach((to, from, next) => {
 new Vue({
   store,
   router,
-  render: h => h(App)
+  render: h => h(App),
+  created () {
+    store.commit('addMenu', router)
+  }
 }).$mount('#app')
