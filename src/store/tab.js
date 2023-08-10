@@ -1,4 +1,4 @@
-import home from '@/api/mockSeveData/home'
+import home from '@/api/mockServeData/home'
 
 export default {
   state: {
