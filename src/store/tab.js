@@ -1,4 +1,3 @@
-import home from '@/api/mockServeData/home'
 import Cookie from 'js-cookie'
 
 export default {
@@ -45,7 +44,7 @@ export default {
     // 动态注册路由
     addMenu (state, router) {
       // 判断缓存中是否有数据
-      if (!Cookie.get('menu')) {
+      if (Cookie.get('menu')) {
         const menu = JSON.parse(Cookie.get('menu'))
         state.menu = menu
         // 组装动态路由的数据
@@ -59,8 +58,10 @@ export default {
             menuArray.push(...item.children)
           } else {
             item.component = () => import(`../views/${item.url}`)
-            return item
+            // return item
+            menuArray.push(item)
           }
+          console.log(item, 'item print')
         })
         console.log(menuArray, 'menuArray')
         // 路由的动态添加

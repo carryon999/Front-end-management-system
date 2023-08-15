@@ -48,6 +48,9 @@ export default {
         Cookie.remove('menu')
         // 跳转到首页
         this.$router.push('/login')
+        // 退出登录后强制刷新一下页面。。。。
+        // this.$router.go(0)
+        location.reload()
       }
     }
   },
